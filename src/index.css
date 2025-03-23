@@ -1,0 +1,115 @@
+@import "tailwindcss";
+
+@theme {
+    --color-jet: '#2E2E2E';
+    --color-onyx: '#353839';
+    --color-eerie-black: '#1e1e1f';
+    --color-vegas-gold': ' #C5A880';
+ --color-orange-yellow': ' #FFB43A';
+ --color-smoky-black': ' #0A0A0A';
+
+}
+
+@theme {
+    --font-family-sans: 'Inter', sans-serif;
+    --font-family-serif: 'Merriweather', serif;
+    --font-family-mono: 'Fira Code', monospace;
+}
+
+.leaflet-container {
+    width: 100%;
+    height: 100%;
+    background: #1a1a1a !important;
+}
+
+.bg-eerie-black {
+    background: #1e1e1f;
+}
+
+.text-orange-yellow {
+    color: #FFB43A;
+}
+
+.bg-gradient-onyx {
+    background: linear-gradient(to bottom right, #303030 3%, #1a1a1a 97%);
+}
+
+.bg-gradient-yellow {
+    background: linear-gradient(to right, #FFB43A, #FFA726);
+}
+.bg-jet {
+    background-color:  #2E2E2E;
+}
+
+.bg-onyx {
+    background-color:#353839
+}
+
+text-smoky-black {
+    color: #0A0A0A;
+}
+
+.bg-vegas-gold {
+    background-color: #C5A880;
+}
+
+.bg-orange-yellow {
+    background-color: #FFB43A;
+}
+
+.bg-smoky-black {
+    background-color: #0A0A0A;
+}
+
+.font-serif {
+    font-family: 'Merriweather', serif;
+}
+
+.font-sans {
+    font-family: 'Inter', sans-serif;
+}
+
+.font-mono {
+    font-family: 'Fira Code', monospace;}
+
+.text-jet {
+    color: #2E2E2E;
+}
+
+.text-onyx {
+    color: #353839;
+}
+
+.text-eerie-black {
+    color: #1e1e1f;
+}
+
+.text-vegas-gold {
+    color: #C5A880;
+}
+
+.text-orange-yellow {
+    color: #FFB43A;
+}
+
+.text-smoky-black {
+    color: #0A0A0A;
+}
+
+.font-sans {
+    font-family: 'Inter', sans-serif;
+}
+
+.font-serif {
+    font-family: 'Merriweather', serif;
+}
+
+.font-mono {
+    font-family: 'Fira Code', monospace;
+}k{
+    color: #0A0A0A;
+}
+
+.bg-vegas-gold{
+    background-color: #C5A880;
+}
