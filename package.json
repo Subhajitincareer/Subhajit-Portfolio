@@ -5,11 +5,11 @@
   "description": "Welcome to the Subhajit.dev portfolio project! This README provides an overview of the project, including setup instructions, features, and usage guidelines.",
   "homepage": "https://Subhajitincareer.github.io/Subhajit-Portfolio",
   "bugs": {
-    "url": "https://github.com/Subhajitincareer/Personal-Portfolio/issues"
+    "url": "https://github.com/Subhajitincareer/Subhajit-Portfolio/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Subhajitincareer/Personal-Portfolio.git"
+    "url": "git+https://github.com/Subhajitincareer/Subhajit-Portfolio.git"
   },
   "license": "ISC",
   "author": "",
