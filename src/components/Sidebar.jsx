@@ -11,7 +11,7 @@ export default function Sidebar() {
       <div className="flex flex-col items-center gap-6 mb-8">
         <div className="relative bg-gradient-onyx rounded-2xl p-2 shadow-lg">
           <img 
-            src="src/assets/images/io.jpg" 
+            src="./src/assets/images/io.jpg" 
             alt="Subhajit Pal"
             className="w-32 h-32 rounded-2xl object-cover"
           />
