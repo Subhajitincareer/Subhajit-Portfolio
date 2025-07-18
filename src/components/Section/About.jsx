@@ -1,5 +1,6 @@
 import { TestimonialCard, ClientLogos } from "../common";
 import { motion } from "motion/react";
+import icon from "../../public/SVG/icon-dev.svg";
 export default function About() {
   return (
     <motion.article
@@ -15,25 +16,43 @@ export default function About() {
 
       <section className="space-y-8">
         <div className="text-gray-400 space-y-4 leading-relaxed">
-          <p>Hi, I'm Subhajit Pal, a passionate MERN Stack Developer with one year of hands-on experience in building dynamic and responsive web applications. As a self-taught developer, I thrive on solving complex problems and continuously expanding my knowledge to stay ahead in the ever-evolving world of web development.</p>{" "}
-          <p>I specialize in:<br/>
-✅ MongoDB – Efficient database design & management <br/>
-✅ Express.js – Backend API development<br/>
-✅ React.js – Building interactive user interfaces<br/>
-✅ Node.js – Scalable and high-performance server-side applications</p>
-
-<p>From crafting full-stack web applications to optimizing user experiences, I love transforming ideas into functional, real-world solutions. My journey in development has been fueled by curiosity, perseverance, and a deep love for coding.</p>
-<p>I’m always open to new challenges, collaborations, and learning opportunities. Let's connect and build something amazing! 🚀</p>
+          <p>
+            Hi, I'm Subhajit Pal, a passionate MERN Stack Developer with one
+            year of hands-on experience in building dynamic and responsive web
+            applications. As a self-taught developer, I thrive on solving
+            complex problems and continuously expanding my knowledge to stay
+            ahead in the ever-evolving world of web development.
+          </p>{" "}
+          <p>
+            I specialize in:
+            <br />
+            ✅ MongoDB – Efficient database design & management <br />
+            ✅ Express.js – Backend API development
+            <br />
+            ✅ React.js – Building interactive user interfaces
+            <br />✅ Node.js – Scalable and high-performance server-side
+            applications
+          </p>
+          <p>
+            From crafting full-stack web applications to optimizing user
+            experiences, I love transforming ideas into functional, real-world
+            solutions. My journey in development has been fueled by curiosity,
+            perseverance, and a deep love for coding.
+          </p>
+          <p>
+            I’m always open to new challenges, collaborations, and learning
+            opportunities. Let's connect and build something amazing! 🚀
+          </p>
         </div>
 
         <div className="grid md:grid-cols-2 gap-6">
           <ServiceItem
-            icon="src/assets/images/icon-dev.svg"
+            icon={icon}
             title="Web Development"
             description="Building full-stack applications with modern frameworks"
           />
         </div>
-{/*    <section className="space-y-6">
+        {/*    <section className="space-y-6">
           <h3 className="text-2xl text-white font-semibold">Testimonials</h3>
           <div className="grid md:grid-cols-2 gap-6">
             <TestimonialCard
@@ -50,9 +69,7 @@ export default function About() {
             />
           </div>
         </section>*/}
-     {/*<ClientLogos /> */}
-
-        
+        {/*<ClientLogos /> */}
       </section>
     </motion.article>
   );
