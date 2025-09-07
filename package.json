@@ -1,9 +1,20 @@
 {
   "name": "subhajit-portfolio",
-  "private": true,
   "version": "0.0.0",
+  "private": true,
+  "description": "Welcome to the Subhajit.dev portfolio project! This README provides an overview of the project, including setup instructions, features, and usage guidelines.",
+  "homepage": "https://Subhajitincareer.github.io/Subhajit-Portfolio",
+  "bugs": {
+    "url": "https://github.com/Subhajitincareer/Subhajit-Portfolio/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Subhajitincareer/Subhajit-Portfolio.git"
+  },
+  "license": "ISC",
+  "author": "",
   "type": "module",
-  "homepage": "https://subhajitincareer.github.io/Personal-Portfolio/",
+  "main": "eslint.config.js",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
