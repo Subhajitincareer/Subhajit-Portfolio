@@ -1,11 +1,18 @@
+import { useSpring, animated } from "@react-spring/web";
 import { TestimonialCard, ClientLogos } from "../common";
-import { motion } from "motion/react";
 import icon from "../../assets/SVG/icon-dev.svg";
+
 export default function About() {
+  // React Spring animation - better performance than Framer Motion
+  const fadeIn = useSpring({
+    from: { opacity: 0 },
+    to: { opacity: 1 },
+    config: { tension: 280, friction: 60 }, // Smooth natural animation
+  });
+
   return (
-    <motion.article
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
+    <animated.article
+      style={fadeIn}
       className="bg-eerie-black rounded-2xl p-8 shadow-xl"
     >
       <header className="mb-8">
@@ -22,7 +29,7 @@ export default function About() {
             applications. As a self-taught developer, I thrive on solving
             complex problems and continuously expanding my knowledge to stay
             ahead in the ever-evolving world of web development.
-          </p>{" "}
+          </p>
           <p>
             I specialize in:
             <br />
@@ -40,7 +47,7 @@ export default function About() {
             perseverance, and a deep love for coding.
           </p>
           <p>
-            I’m always open to new challenges, collaborations, and learning
+            I'm always open to new challenges, collaborations, and learning
             opportunities. Let's connect and build something amazing! 🚀
           </p>
         </div>
@@ -52,6 +59,8 @@ export default function About() {
             description="Building full-stack applications with modern frameworks"
           />
         </div>
+
+        {/* Commented sections remain the same */}
         {/*    <section className="space-y-6">
           <h3 className="text-2xl text-white font-semibold">Testimonials</h3>
           <div className="grid md:grid-cols-2 gap-6">
@@ -71,7 +80,7 @@ export default function About() {
         </section>*/}
         {/*<ClientLogos /> */}
       </section>
-    </motion.article>
+    </animated.article>
   );
 }
 
