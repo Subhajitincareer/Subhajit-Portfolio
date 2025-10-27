@@ -13,7 +13,7 @@ export default defineConfig({
     react(),
     tailwindcss(),
   ],
-  base: './',
+  base: '/Subhajit-Portfolio/',
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
