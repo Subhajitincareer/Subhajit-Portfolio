@@ -8,6 +8,7 @@ import Contact from "./components/Section/Contact";
 import NotFound from "./components/common/NotFound";
 import AdminLogin from "./pages/Admin/AdminLogin";
 import Dashboard from "./pages/Admin/Dashboard";
+import Editor from "./pages/Admin/Editor";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
 
         <Route element={<ProtectedRoute />}>
           <Route path="/admin" element={<Dashboard />} />
+          <Route path="/admin/editor" element={<Editor />} />
         </Route>
 
         <Route path="*" element={<NotFound />} />

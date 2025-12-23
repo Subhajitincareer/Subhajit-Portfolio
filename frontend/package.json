@@ -24,6 +24,7 @@
     "deploy": "gh-pages -d dist"
   },
   "dependencies": {
+    "@emailjs/browser": "^4.4.1",
     "@heroicons/react": "^2.2.0",
     "@lottiefiles/lottie-js": "^0.4.2",
     "@react-spring/web": "^10.0.3",
@@ -32,7 +33,6 @@
     "@tailwindcss/postcss": "^4.0.14",
     "@tailwindcss/vite": "^4.0.14",
     "axios": "^1.12.2",
-    "emailjs-com": "^3.2.0",
     "framer-motion": "^12.5.0",
     "leaflet": "^1.9.4",
     "motion": "^12.5.0",

@@ -15,22 +15,12 @@ const Dashboard = () => {
                 {/* Mobile Header Spacer (optional, if header is sticky) */}
                 {/* <div className="h-16 md:hidden"></div>  */}
 
-                <header className="bg-eerie-black border-b border-onyx p-6 shadow-sm sticky top-0 z-20">
-                    <div className="flex justify-between items-center">
-                        <h1 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-orange-yellow to-vegas-gold">Dashboard Overview</h1>
-                        <div className="flex items-center gap-4">
-                            <div className="text-right hidden sm:block">
-                                <p className="text-sm font-medium text-white">{user?.name}</p>
-                                <p className="text-xs text-gray-400 capitalize">{user?.role}</p>
-                            </div>
-                            <div className="h-10 w-10 rounded-full bg-gradient-to-tr from-orange-yellow to-vegas-gold flex items-center justify-center text-jet font-bold">
-                                {user?.name?.charAt(0).toUpperCase()}
-                            </div>
-                        </div>
-                    </div>
-                </header>
-
                 <main className="flex-1 p-6 md:p-8 overflow-y-auto w-full max-w-[1600px] mx-auto">
+                    <header className="mb-8">
+                        <h1 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-orange-yellow to-vegas-gold">
+                            Dashboard Overview
+                        </h1>
+                    </header>
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}

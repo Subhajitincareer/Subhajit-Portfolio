@@ -1,22 +1,21 @@
 // ProjectFilter.jsx
-import {motion} from "motion/react"
-import { getFilteredProjects ,} from "../../utils/data";
+import { motion } from "motion/react"
+import { getFilteredProjects, } from "../../utils/data";
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
-import { useRef } from 'react';
-import emailjs from 'emailjs-com';
+import { useRef, useState } from 'react';
+import emailjs from '@emailjs/browser';
 export const ProjectFilter = ({ categories, selected, onSelect }) => (
   <div className="mb-8 flex flex-wrap gap-4">
     {categories.map(category => (
       <button
         key={category}
         onClick={() => onSelect(category)}
-        className={`px-4 py-2 rounded-lg capitalize ${
-          selected === category
-            ? 'bg-gradient-yellow text-smoky-black'
-            : 'bg-jet text-gray-400 hover:bg-vegas-gold'
-        } transition-colors`}
+        className={`px-4 py-2 rounded-lg capitalize ${selected === category
+          ? 'bg-gradient-yellow text-smoky-black'
+          : 'bg-jet text-gray-400 hover:bg-vegas-gold'
+          } transition-colors`}
       >
         {category}
       </button>
@@ -27,13 +26,13 @@ export const ProjectFilter = ({ categories, selected, onSelect }) => (
 // ProjectGrid.jsx
 export const ProjectGrid = ({ filter }) => {
   const filteredProjects = getFilteredProjects(filter);
-  
+
   return (
     <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
       {filteredProjects.map(project => (
         <div key={project.id} className="group relative overflow-hidden rounded-xl">
-          <img 
-            src={project.image} 
+          <img
+            src={project.image}
             alt={project.title}
             className="w-full h-64 object-cover transition-transform group-hover:scale-105"
           />
@@ -53,55 +52,89 @@ export const ProjectGrid = ({ filter }) => {
 
 export const ContactForm = () => {
   const formRef = useRef();
+  const [status, setStatus] = useState({ type: '', message: '' });
+  const [isSending, setIsSending] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setIsSending(true);
+    setStatus({ type: '', message: '' });
+
+    // Use environment variables or fallback to the provided keys
+    const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID || 'service_pysfons';
+    const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID || 'template_d5yzhfc';
+    const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY || 'YjG2ML82G4rMz-3F7';
 
     emailjs
       .sendForm(
-        'service_pysfons',  // Replace with your EmailJS service ID
-        'template_d5yzhfc',   // Replace with your EmailJS template ID
+        serviceId,
+        templateId,
         formRef.current,
-        'YjG2ML82G4rMz-3F7'  // Replace with your EmailJS public key
+        publicKey
       )
       .then(
         (result) => {
           console.log('Email successfully sent!', result.text);
+          setStatus({ type: 'success', message: 'Message sent successfully!' });
           formRef.current.reset();
         },
         (error) => {
           console.error('Error sending email:', error.text);
+          setStatus({ type: 'error', message: 'Failed to send message. Please try again.' });
         }
-      );
+      )
+      .finally(() => {
+        setIsSending(false);
+      });
   };
 
   return (
     <form ref={formRef} onSubmit={handleSubmit} className="space-y-6">
+      {status.message && (
+        <div className={`p-4 rounded-lg text-sm ${status.type === 'success'
+          ? 'bg-green-500/10 text-green-400 border border-green-500/20'
+          : 'bg-red-500/10 text-red-400 border border-red-500/20'
+          }`}>
+          {status.message}
+        </div>
+      )}
+
       <div className="grid md:grid-cols-2 gap-6">
         <input
           type="text"
-          name="user_name" // name attribute is important for EmailJS to map the field
+          name="user_name"
           placeholder="Name"
-          className="w-full p-3 rounded-lg bg-jet border border-onyx focus:border-vegas-gold"
+          required
+          className="w-full p-3 rounded-lg bg-jet border border-onyx focus:border-orange-yellow focus:ring-1 focus:ring-orange-yellow outline-none text-white transition-all placeholder-gray-500"
         />
         <input
           type="email"
           name="user_email"
           placeholder="Email"
-          className="w-full p-3 rounded-lg bg-jet border border-onyx focus:border-vegas-gold"
+          required
+          className="w-full p-3 rounded-lg bg-jet border border-onyx focus:border-orange-yellow focus:ring-1 focus:ring-orange-yellow outline-none text-white transition-all placeholder-gray-500"
         />
       </div>
       <textarea
         name="message"
         placeholder="Message"
         rows="5"
-        className="w-full p-3 rounded-lg bg-jet border border-onyx focus:border-vegas-gold"
+        required
+        className="w-full p-3 rounded-lg bg-jet border border-onyx focus:border-orange-yellow focus:ring-1 focus:ring-orange-yellow outline-none text-white transition-all placeholder-gray-500 resize-none"
       ></textarea>
       <button
         type="submit"
-        className="w-full py-3 bg-gradient-yellow text-smoky-black rounded-lg font-semibold hover:opacity-90 transition-opacity"
+        disabled={isSending}
+        className="w-full py-3 bg-gradient-yellow text-smoky-black rounded-lg font-semibold hover:opacity-90 transition-all transform active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed flex justify-center items-center gap-2"
       >
-        Send Message
+        {isSending ? (
+          <>
+            <span className="w-5 h-5 border-2 border-smoky-black/30 border-t-smoky-black rounded-full animate-spin"></span>
+            Sending...
+          </>
+        ) : (
+          'Send Message'
+        )}
       </button>
     </form>
   );
@@ -111,47 +144,47 @@ export const ContactForm = () => {
 
 // TestimonialCard.jsx
 export const TestimonialCard = ({ avatar, name, role, text }) => (
-    <motion.div 
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      className="p-6 rounded-xl bg-gradient-onyx relative before:absolute before:inset-px before:bg-eerie-black before:rounded-xl"
-    >
-      <div className="flex items-start gap-4 mb-4">
-        <div className="bg-gradient-onyx p-2 rounded-full shadow-lg">
-          <img 
-            src={avatar} 
-            alt={name}
-            className="w-12 h-12 rounded-full object-cover"
-          />
-        </div>
-        <div>
-          <h3 className="text-white font-semibold">{name}</h3>
-          <p className="text-vegas-gold text-sm">{role}</p>
-        </div>
+  <motion.div
+    initial={{ opacity: 0, y: 20 }}
+    animate={{ opacity: 1, y: 0 }}
+    className="p-6 rounded-xl bg-gradient-onyx relative before:absolute before:inset-px before:bg-eerie-black before:rounded-xl"
+  >
+    <div className="flex items-start gap-4 mb-4">
+      <div className="bg-gradient-onyx p-2 rounded-full shadow-lg">
+        <img
+          src={avatar}
+          alt={name}
+          className="w-12 h-12 rounded-full object-cover"
+        />
       </div>
-      <p className="text-gray-400 leading-relaxed">"{text}"</p>
-    </motion.div>
-  );
-  // ClientLogos.jsx
-export const ClientLogos = () => (
-    <div className="mt-8 border-t border-jet pt-6">
-      <h3 className="text-white text-lg font-semibold mb-4">Trusted By</h3>
-      <div className="grid grid-cols-3 md:grid-cols-6 gap-4">
-        {[1, 2, 3, 4, 5, 6].map((i) => (
-          <div 
-            key={i}
-            className="p-3 bg-jet rounded-lg flex items-center justify-center"
-          >
-            <img 
-              src={`/assets/images/logo-${i}-color.png`} 
-              alt={`Client ${i}`}
-              className="h-8 object-contain grayscale hover:grayscale-0 transition-all"
-            />
-          </div>
-        ))}
+      <div>
+        <h3 className="text-white font-semibold">{name}</h3>
+        <p className="text-vegas-gold text-sm">{role}</p>
       </div>
     </div>
-  );
+    <p className="text-gray-400 leading-relaxed">"{text}"</p>
+  </motion.div>
+);
+// ClientLogos.jsx
+export const ClientLogos = () => (
+  <div className="mt-8 border-t border-jet pt-6">
+    <h3 className="text-white text-lg font-semibold mb-4">Trusted By</h3>
+    <div className="grid grid-cols-3 md:grid-cols-6 gap-4">
+      {[1, 2, 3, 4, 5, 6].map((i) => (
+        <div
+          key={i}
+          className="p-3 bg-jet rounded-lg flex items-center justify-center"
+        >
+          <img
+            src={`/assets/images/logo-${i}-color.png`}
+            alt={`Client ${i}`}
+            className="h-8 object-contain grayscale hover:grayscale-0 transition-all"
+          />
+        </div>
+      ))}
+    </div>
+  </div>
+);
 
 // Fix default marker icons
 const DefaultIcon = L.icon({
@@ -187,7 +220,7 @@ export const MapEmbed = () => (
 );
 
 export const BlogPostCard = ({ image, category, title, date, excerpt }) => (
-  <motion.div 
+  <motion.div
     initial={{ opacity: 0, y: 20 }}
     animate={{ opacity: 1, y: 0 }}
     className="bg-eerie-black rounded-xl overflow-hidden shadow-xl hover:shadow-2xl transition-shadow"
@@ -202,7 +235,7 @@ export const BlogPostCard = ({ image, category, title, date, excerpt }) => (
         {category}
       </span>
     </div>
-    
+
     <div className="p-6">
       <div className="flex items-center justify-between mb-3">
         <h3 className="text-white text-xl font-semibold">{title}</h3>
