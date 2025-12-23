@@ -3,6 +3,10 @@ import { motion } from 'framer-motion';
 import AdminSidebar from '../../components/Admin/AdminSidebar';
 import useAuthStore from '../../store/useAuthStore';
 import { FaGithub, FaLinkedin, FaTwitter, FaUpload } from 'react-icons/fa';
+import toast from 'react-hot-toast';
+import ReactQuill from 'react-quill-new';
+import 'react-quill-new/dist/quill.snow.css';
+import { FaCode, FaPalette, FaMobileAlt, FaServer } from 'react-icons/fa';
 
 const Editor = () => {
     const { user } = useAuthStore();
@@ -41,6 +45,58 @@ const Editor = () => {
         }
     };
 
+    // About Tab State
+    const [aboutData, setAboutData] = React.useState({
+        description: '',
+    });
+
+    const handleAboutChange = (content) => {
+        setAboutData(prev => ({ ...prev, description: content }));
+    };
+
+    const handleAboutUpload = () => {
+        if (!aboutData.description || aboutData.description === '<p><br></p>') {
+            toast.error('Please enter a description');
+            return;
+        }
+        // Simulate API call
+        console.log('Uploading About Data:', aboutData);
+        toast.success('About details updated successfully!');
+    };
+
+    // About Card State
+    const [aboutCardData, setAboutCardData] = React.useState({
+        icon: 'code',
+        title: '',
+        description: ''
+    });
+
+    const handleCardChange = (e) => {
+        const { name, value } = e.target;
+        setAboutCardData(prev => ({ ...prev, [name]: value }));
+    };
+
+    const handleCardUpload = () => {
+        if (!aboutCardData.title || !aboutCardData.description) {
+            toast.error('Please fill in all card details');
+            return;
+        }
+        // Simulate API call
+        console.log('Uploading Card Data:', aboutCardData);
+        toast.success('Card added successfully!');
+        setAboutCardData({ icon: 'code', title: '', description: '' }); // Reset
+    };
+
+    const getIconComponent = (iconName) => {
+        switch (iconName) {
+            case 'code': return <FaCode className="w-6 h-6" />;
+            case 'design': return <FaPalette className="w-6 h-6" />;
+            case 'mobile': return <FaMobileAlt className="w-6 h-6" />;
+            case 'server': return <FaServer className="w-6 h-6" />;
+            default: return <FaCode className="w-6 h-6" />;
+        }
+    };
+
     // Check if all fields are filled (not null and not empty string)
     const isFormValid = Object.values(personalData).every(value => value !== null && value !== '');
 
@@ -49,9 +105,50 @@ const Editor = () => {
         // API call would go here
     };
 
+    // Custom Toolbar for Quill
+    const modules = {
+        toolbar: [
+            [{ 'header': [1, 2, 3, false] }],
+            ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+            [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+            ['link'],
+            ['clean']
+        ],
+    };
+
     return (
         <div className="flex min-h-screen bg-smoky-black text-white font-sans">
             <AdminSidebar />
+
+            {/* Inject Custom Styles for Dark Mode Quill */}
+            <style>{`
+                .ql-toolbar {
+                    background-color: #353839; /* onyx */
+                    border-color: #4b5563 !important;
+                    border-top-left-radius: 0.75rem;
+                    border-top-right-radius: 0.75rem;
+                }
+                .ql-container {
+                    background-color: #1e1e1f; /* eerie-black */
+                    border-color: #4b5563 !important;
+                    border-bottom-left-radius: 0.75rem;
+                    border-bottom-right-radius: 0.75rem;
+                    color: #d1d5db; /* gray-300 */
+                    font-size: 1rem;
+                }
+                .ql-stroke {
+                    stroke: #d1d5db !important;
+                }
+                .ql-fill {
+                    fill: #d1d5db !important;
+                }
+                .ql-picker {
+                    color: #d1d5db !important;
+                }
+                .ql-editor {
+                    min-height: 300px;
+                }
+            `}</style>
 
             <div className="flex-1 flex flex-col min-w-0 md:ml-0">
                 <main className="flex-1 p-6 md:p-8 overflow-y-auto w-full max-w-[1600px] mx-auto">
@@ -269,12 +366,128 @@ const Editor = () => {
                                         </div>
                                     </div>
                                 </div>
+                            ) : activeTab === 'About' ? (
+                                <div className="max-w-4xl mx-auto space-y-8">
+                                    <div className="flex items-center justify-between border-b border-onyx pb-4">
+                                        <h3 className="text-xl font-semibold text-orange-yellow">About Me Section</h3>
+                                    </div>
+
+                                    {/* Rich Text Editor */}
+                                    <div className="space-y-4">
+                                        <label className="block text-sm font-medium text-gray-400">
+                                            About Description
+                                        </label>
+                                        <div className="bg-onyx/50 rounded-xl overflow-hidden">
+                                            <ReactQuill
+                                                theme="snow"
+                                                value={aboutData.description}
+                                                onChange={handleAboutChange}
+                                                modules={modules}
+                                                className="text-white"
+                                            />
+                                        </div>
+                                    </div>
+
+                                    {/* Action Buttons */}
+                                    <div className="flex justify-end pt-4">
+                                        <button
+                                            onClick={handleAboutUpload}
+                                            className="px-8 py-3 bg-gradient-to-r from-orange-yellow to-vegas-gold text-jet font-bold rounded-xl shadow-lg hover:shadow-orange-yellow/20 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center gap-2"
+                                        >
+                                            <FaUpload />
+                                            <span>Update About Section</span>
+                                        </button>
+                                    </div>
+                                </div>
                             ) : (
-                                <div>
-                                    <h2 className="text-xl font-semibold mb-4 text-orange-yellow">Edit {activeTab}</h2>
-                                    <p className="text-gray-400">
-                                        This section will contain the form to edit <strong>{activeTab}</strong> details.
-                                    </p>
+                                <div className="grid lg:grid-cols-2 gap-8">
+                                    {/* Form Section */}
+                                    <div className="space-y-6">
+                                        <h3 className="text-xl font-semibold text-orange-yellow border-b border-onyx pb-2">Add New Card</h3>
+
+                                        {/* Icon Selection */}
+                                        <div className="space-y-2">
+                                            <label className="block text-sm font-medium text-gray-400">Select Icon</label>
+                                            <div className="relative">
+                                                <select
+                                                    name="icon"
+                                                    value={aboutCardData.icon}
+                                                    onChange={handleCardChange}
+                                                    className="w-full px-4 py-3 bg-onyx border border-gray-700 rounded-lg focus:ring-1 focus:ring-orange-yellow focus:border-orange-yellow outline-none text-white appearance-none cursor-pointer"
+                                                >
+                                                    <option value="code">Web Development (Code)</option>
+                                                    <option value="design">UI/UX Design (Palette)</option>
+                                                    <option value="mobile">App Development (Mobile)</option>
+                                                    <option value="server">Backend/DevOps (Server)</option>
+                                                </select>
+                                                <div className="absolute right-4 top-3.5 text-gray-400 pointer-events-none">
+                                                    ▼
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        {/* Card Title */}
+                                        <div className="space-y-2">
+                                            <label className="block text-sm font-medium text-gray-400">Card Title</label>
+                                            <input
+                                                type="text"
+                                                name="title"
+                                                value={aboutCardData.title}
+                                                onChange={handleCardChange}
+                                                className="w-full px-4 py-3 bg-onyx border border-gray-700 rounded-lg focus:ring-1 focus:ring-orange-yellow focus:border-orange-yellow outline-none text-white placeholder-gray-600"
+                                                placeholder="e.g. Frontend Development"
+                                            />
+                                        </div>
+
+                                        {/* Description */}
+                                        <div className="space-y-2">
+                                            <label className="block text-sm font-medium text-gray-400">Description (Max 3 lines)</label>
+                                            <textarea
+                                                name="description"
+                                                value={aboutCardData.description}
+                                                onChange={handleCardChange}
+                                                rows="3"
+                                                className="w-full px-4 py-3 bg-onyx border border-gray-700 rounded-lg focus:ring-1 focus:ring-orange-yellow focus:border-orange-yellow outline-none text-white placeholder-gray-600 resize-none"
+                                                placeholder="Brief description of this skill or service..."
+                                            ></textarea>
+                                        </div>
+
+                                        {/* Action Button */}
+                                        <div className="pt-4">
+                                            <button
+                                                onClick={handleCardUpload}
+                                                className="w-full py-3 px-6 rounded-xl font-bold text-lg shadow-lg bg-gradient-to-r from-orange-yellow to-vegas-gold text-jet hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer"
+                                            >
+                                                Add Card
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    {/* Card Preview */}
+                                    <div className="bg-onyx/30 rounded-2xl p-6 h-fit sticky top-6 border border-gray-800">
+                                        <h3 className="text-xl font-semibold text-white mb-6 border-b border-gray-700 pb-2">Card Live Preview</h3>
+
+                                        <div className="bg-eerie-black p-6 rounded-xl border border-gray-800 shadow-xl hover:shadow-orange-yellow/10 transition-shadow">
+                                            <div className="flex flex-col gap-4">
+                                                <div className="w-12 h-12 bg-onyx rounded-lg flex items-center justify-center text-orange-yellow shadow-lg ring-1 ring-gray-800">
+                                                    {getIconComponent(aboutCardData.icon)}
+                                                </div>
+
+                                                <div>
+                                                    <h4 className="text-lg font-bold text-white mb-2">
+                                                        {aboutCardData.title || 'Card Title'}
+                                                    </h4>
+                                                    <p className="text-gray-400 text-sm leading-relaxed line-clamp-3">
+                                                        {aboutCardData.description || 'This description will serve as a brief overview of the skill or service provided, typically spanning about three lines for optimal readability.'}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div className="mt-8 text-xs text-gray-500 text-center">
+                                            This is how the card will appear on your "About" page.
+                                        </div>
+                                    </div>
                                 </div>
                             )}
                         </motion.div>

@@ -10,10 +10,12 @@ import AdminLogin from "./pages/Admin/AdminLogin";
 import Dashboard from "./pages/Admin/Dashboard";
 import Editor from "./pages/Admin/Editor";
 import ProtectedRoute from "./components/ProtectedRoute";
+import { Toaster } from 'react-hot-toast';
 
 function App() {
   return (
     <Router>
+      <Toaster position="top-right" reverseOrder={false} />
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<About />} />
