@@ -10,8 +10,10 @@ import AdminLogin from "./pages/Admin/AdminLogin";
 import Dashboard from "./pages/Admin/Dashboard";
 import Editor from "./pages/Admin/Editor";
 import ProtectedRoute from "./components/ProtectedRoute";
-import { Toaster } from 'react-hot-toast';
-
+import { Toaster } from "react-hot-toast";
+import ResumePdf from "./pages/Admin/ResumePdf";
+import Project from "./pages/Admin/Project";
+import Adminblog from "./pages/Admin/Adminblog";
 function App() {
   return (
     <Router>
@@ -30,6 +32,9 @@ function App() {
         <Route element={<ProtectedRoute />}>
           <Route path="/admin" element={<Dashboard />} />
           <Route path="/admin/editor" element={<Editor />} />
+          <Route path="/admin/resume" element={<ResumePdf />} />
+          <Route path="/admin/project" element={<Project />} />
+          <Route path="/admin/blog" element={<Adminblog />} />
         </Route>
 
         <Route path="*" element={<NotFound />} />
